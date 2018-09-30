@@ -1,6 +1,5 @@
-package ru.hse.spb
-
 import org.junit.Test
+
 import org.junit.Assert.*
 
 class ProblemAKtTest {
@@ -18,7 +17,7 @@ class ProblemAKtTest {
     @Test
     fun testGetGender() {
         assertEquals(getGender("petra"), Gender.WOMAN)
-        assertEquals(getGender("initas"), Gender.UNKNOWN)
+        assertEquals(getGender("initas"), null)
         assertEquals(getGender("nuiteretr"), Gender.MAN)
     }
 

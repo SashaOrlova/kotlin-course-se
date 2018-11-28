@@ -71,4 +71,28 @@ class TexTest {
         """.trimIndent()
         assertEquals(expected, sb.toString().trimIndent())
     }
+
+    @Test
+    fun testTags() {
+        val sb = StringBuilder()
+        document {
+                customTag("customTag", "arg", "opt1", "opt2") {
+                    customTag("innerCustomTag", "opt1") {
+                        math ( "2^3" )
+                        newline()
+                    }
+                }
+        }.render(sb, "")
+
+        val expected = """
+            \begin{document}
+             \begin{customTag}[arg, opt1, opt2]
+              \begin{innerCustomTag}[opt1]
+               $2^3$
+              \end{innerCustomTag}
+             \end{customTag}
+            \end{document}
+        """.trimIndent()
+        assertEquals(expected, sb.toString().trimIndent())
+    }
 }

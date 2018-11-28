@@ -12,9 +12,7 @@ abstract class Element {
     abstract fun render(builder: StringBuilder, indent: String)
 
     override fun toString(): String {
-        val stringBuilder = StringBuilder()
-        render(stringBuilder, "")
-        return stringBuilder.toString()
+        return buildString { render(this@buildString, "") }
     }
 }
 
@@ -54,7 +52,7 @@ open class TagWithArgs(val name: String, vararg val params: String) : Element() 
     val children = arrayListOf<Element>()
 
     operator fun String.unaryPlus() {
-        children.add(TextElement(this))
+        children += TextElement(this)
     }
 
     override fun render(builder: StringBuilder, indent: String) {
@@ -65,11 +63,11 @@ open class TagWithArgs(val name: String, vararg val params: String) : Element() 
 
     protected fun <T : Element> initNewTag(tag: T, init: T.() -> Unit): T {
         tag.init()
-        children.add(tag)
+        children += tag
         return tag
     }
 
-    fun tagwithargs(name: String, vararg params: String, init: TagWithArgs.() -> Unit) =
+    fun customTag(name: String, vararg params: String, init: TagWithArgs.() -> Unit) =
             initNewTag(TagWithArgs(name, *params), init)
 
     fun itemize(init: Itemize.() -> Unit) = initNewTag(Itemize(), init)
